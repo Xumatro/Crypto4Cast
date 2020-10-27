@@ -20,5 +20,5 @@ if __name__ == "__main__":
 
     # Write our organised and cleaned history data to a file.
     with open("btc_hist.json", "w") as btc_hist:
-        json.dump(history_data['Data']["Data"], btc_hist, indent=2)
+        json.dump(history_data, btc_hist, indent=2)
         btc_hist.close()
