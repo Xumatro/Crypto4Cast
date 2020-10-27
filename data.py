@@ -16,6 +16,8 @@ def clean_data(history_data):
         day['date'] = (datetime.datetime.fromtimestamp(day['time'])
             .strftime('%Y-%m-%d'))
 
+        day['average'] = (day['high'] + day['low']) / 2
+
         del day['time']
         del day["volumefrom"]
         del day["volumeto"]
