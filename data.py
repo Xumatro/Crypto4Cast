@@ -51,5 +51,3 @@ def clean_history(data, trim=False):
         
     # Only return the usefull history data from the seccond "Data" field.
     return data['Data']['Data']
-
-    
