@@ -1,0 +1,30 @@
+{
+    "general": {
+        "base_url": "https://min-api.cryptocompare.com/",
+        "keyfile": "key.txt",
+        "fiat": "USD",
+        "coin": "ETH",
+        "timeframe": 1825,
+        "granularity": "day",
+        "conv_date": true,
+        "trim": true
+    },
+    "neural_net": {
+        "rnn_file": "predictor.h5",
+        "batch_size": 1,
+        "epochs": 15,
+        "save": true,
+        "optimizer": "rmsprop",
+        "loss_function": "mean_squared_error"
+    },
+    "data": {
+        "sequential_len": 30,
+        "train_size": 0.85,
+        "hist_file": "coin_hist.json"
+    },
+    "graph": {
+        "filename": "value_of_coin.png",
+        "show_grid": true,
+        "dpi": 350
+    }
+}
