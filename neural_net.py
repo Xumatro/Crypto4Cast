@@ -1,5 +1,5 @@
 import silence_tensorflow.auto
-from keras.layers import LSTM, Dense, Activation, LeakyReLU, PReLU, ThresholdedReLU
+from keras.layers import LSTM, Dense, Activation, LeakyReLU
 from keras.models import Sequential, load_model
 
 # Create a new recurrent neural network with LSTM.
@@ -45,7 +45,7 @@ def train(model, train, test, batchs=3, epochs=25, save=True):
 
 # Load a pre-trained model to avoid training everytime.
 def load(name):
-    model = load_model(name, custom_objects={'LeakyReLU': LeakyReLU, 'PReLU': PReLU})
+    model = load_model(name, custom_objects={'LeakyReLU': LeakyReLU})
     model.compile(optimizer='rmsprop', loss='mean_squared_error')
 
     return model
