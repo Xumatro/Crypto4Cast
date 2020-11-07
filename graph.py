@@ -1,8 +1,8 @@
 from matplotlib import pyplot
 
 
-# Draw a basic graph of our data.
-def draw_from_json(data):
+# Plot a basic graph of our data.
+def plot_from_json(data):
     # Set "entries" to the number of data entries in the data, counting backwards.
     entries = [*range(-len(data)+1, 0), 0]
     
