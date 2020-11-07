@@ -24,7 +24,7 @@ def new_rnn(seq_len, optimizer, loss_function):
     model.add(LSTM(units=20, return_sequences=True))
     model.add(LSTM(units=10, return_sequences=False))
     model.add(Dense(units=1, activation='linear'))
-    model.compile(optimizer=optimizer,loss=los_function)
+    model.compile(optimizer=optimizer,loss=loss_function)
 
     return model
 
