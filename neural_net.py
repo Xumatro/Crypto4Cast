@@ -3,7 +3,7 @@ from keras.layers import LSTM, Dense, Activation, LeakyReLU
 from keras.models import Sequential, load_model
 
 # Create a new recurrent neural network with LSTM.
-def new_rnn(seq_len=30):
+def new_rnn(seq_len, optimizer, loss_function):
 
     # Set "input_shape" to one-dimensional
     input_shape = (None, 1)
@@ -24,12 +24,12 @@ def new_rnn(seq_len=30):
     model.add(LSTM(units=20, return_sequences=True))
     model.add(LSTM(units=10, return_sequences=False))
     model.add(Dense(units=1, activation='linear'))
-    model.compile(optimizer='rmsprop',loss='mean_squared_error')
+    model.compile(optimizer=optimizer,loss=los_function)
 
     return model
 
 # Train the model on the given dataset.
-def train(model, train, test, batchs=3, epochs=25, save=True):
+def train(model, train, test, batchs, epochs, save, save_name):
 
     # Train the model with the given parameters.
     model.fit(x=train[0], y=train[1],
@@ -39,14 +39,14 @@ def train(model, train, test, batchs=3, epochs=25, save=True):
 
     # If "save" is set, save the trained model for later use.
     if save:
-        model.save('predictor.h5')
+        model.save(save_name)
 
     return model
 
 # Load a pre-trained model to avoid training everytime.
-def load(name):
-    model = load_model(name, custom_objects={'LeakyReLU': LeakyReLU})
-    model.compile(optimizer='rmsprop', loss='mean_squared_error')
+def load(filename, optimizer, loss_function):
+    model = load_model(filename, custom_objects={'LeakyReLU': LeakyReLU})
+    model.compile(optimizer=optimizer, loss=loss_function)
 
     return model
 

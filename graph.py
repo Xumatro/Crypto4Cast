@@ -2,7 +2,7 @@ from matplotlib import pyplot
 
 
 # Plot a basic graph of our data.
-def plot_from_json(data):
+def plot_from_json(data, show_grid, filename, dpi):
     # Set "entries" to the number of data entries in the data, counting backwards.
     entries = [*range(-len(data)+1, 0), 0]
     
@@ -16,5 +16,5 @@ def plot_from_json(data):
     pyplot.xlabel("Days")
     pyplot.ylabel("Value")
     pyplot.title("Value of coin")
-    pyplot.grid(True)
-    pyplot.savefig("Value_of_coin.png", dpi=500)
+    pyplot.grid(show_grid)
+    pyplot.savefig(filename, dpi=dpi)

@@ -2,7 +2,7 @@ import requests, json, datetime, pandas, numpy
 
 
 # Retrieve the history data from our chosen API.
-def get_history(base_url, api_key, coin="BTC", base_currency="USD", granularity="day", timeframe=1825):
+def get_history(base_url, api_key, base_currency, coin, timeframe, granularity):
     
     # Build the correct URL from given parameters.
     url = (base_url + "data/v2/histo" + granularity + "?fsym=" + coin + "&tsym="
@@ -17,7 +17,7 @@ def get_history(base_url, api_key, coin="BTC", base_currency="USD", granularity=
     return response
 
 # Clean the history data by filtering out unneeded parts.
-def clean_history(data, trim=False, convert_date=False):
+def clean_history(data, trim, convert_date):
     stop_trim = False
     start_index = 0
 
@@ -67,7 +67,7 @@ def to_dataframe(data):
     return data_frame.groupby('date').mean()['average']
 
 # Convert our data to a series of nested lists where every list contains data from 30 entries.
-def create_price_matrix(dataframe, seq_len=30):
+def create_price_matrix(dataframe, seq_len):
     matrix = []
 
     # Loop over data in chunks of "seq_len" and add a sublist to the price matrix.
@@ -89,7 +89,7 @@ def normalize_matrix(matrix):
 
 
 # Split the price matrix into test and train datasets.
-def split_test_train(matrix, train_size=0.9):
+def split_test_train(matrix, train_size):
     matrix = numpy.array(matrix)
 
     # Define spliting point base on "train_size".
