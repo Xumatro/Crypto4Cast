@@ -17,7 +17,7 @@ if __name__ == "__main__":
     arguments = sys.argv
 
     history_data = data.get_history(base_url=general_set['base_url'], api_key=api_key, 
-        base_currency=general_set['fiat'], coin=general_set['coin'],
+        base_currency=general_set['base_currency'], coin=general_set['coin'],
         timeframe=general_set['timeframe'], granularity=general_set['granularity'])
 
     # If the retrieved data isn't a dictionary, it is our custom error message.
@@ -44,11 +44,24 @@ if __name__ == "__main__":
 
     # If supplied argument was "train", train a new model.
     if len(arguments) > 1 and arguments[1] == "train":
-        model = neural_net.new_rnn(seq_len=data_set['sequential_len'],
+        model = neural_net.new_rnn(layers=rnn_set['layers'], seq_len=data_set['sequential_len'],
             optimizer=rnn_set['optimizer'], loss_function=rnn_set['loss_function'])
 
-        neural_net.train(model, (x_tr, y_tr), (x_te, y_te), epochs=rnn_set['epochs'],
-            batchs=rnn_set['batch_size'], save=rnn_set['save'], save_name=rnn_set['rnn_file'])
+        # Print a description of the model.
+        print(model.summary())
+
+        model, accuracy = neural_net.train(model, (x_tr, y_tr), (x_te, y_te), epochs=rnn_set['epochs'],
+            batchs=rnn_set['batch_size'])
+        
+        # If "save" is set, save the trained model for later use, also save a json file with the model architecture.
+        if rnn_set['save']:
+            model.save(rnn_set['rnn_file'])
+            with open('model.json', 'w') as model_file:
+                json_model = json.loads(model.to_json())
+                json.dump(json_model, model_file, indent=2)
+
+        print("\nModels final accuracy was: " + str(accuracy))
+
     else:
         model = neural_net.load(filename=rnn_set['rnn_file'], optimizer=rnn_set['optimizer'],
             loss_function=rnn_set['loss_function'])
