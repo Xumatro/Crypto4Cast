@@ -2,7 +2,7 @@
     "general": {
         "base_url": "https://min-api.cryptocompare.com/",
         "keyfile": "key.txt",
-        "fiat": "USD",
+        "base_currency": "USD",
         "coin": "ETH",
         "timeframe": 1825,
         "granularity": "day",
@@ -12,10 +12,47 @@
     "neural_net": {
         "rnn_file": "predictor.h5",
         "batch_size": 1,
-        "epochs": 15,
+        "epochs": 100,
         "save": true,
         "optimizer": "rmsprop",
-        "loss_function": "mean_squared_error"
+        "loss_function": "mean_squared_error",
+        "layers": [
+            {
+                "type": "GRU",
+                "units": 25,
+                "activation": "softsign",
+                "alpha": 0.1,
+                "return_seq": true
+            },
+            {
+                "type": "LSTM",
+                "units": 20,
+                "activation": "softplus",
+                "alpha": 0.15,
+                "return_seq": true
+            },
+            {
+                "type": "LSTM",
+                "units": 15,
+                "activation": "elu",
+                "alpha": 0.2,
+                "return_seq": true
+            },
+            {
+                "type": "GRU",
+                "units": 10,
+                "activation": "tanh",
+                "alpha": 0.1,
+                "return_seq": false
+            },
+            {
+                "type": "Dense",
+                "units": 1,
+                "activation": "exponential",
+                "alpha": 0.1,
+                "return_seq": false
+            }
+        ]
     },
     "data": {
         "sequential_len": 30,
