@@ -1,20 +1,29 @@
 # CryptoPredix
-Predict the future trajectory of cryptocurrencies
+> ***Predict the future trajectory of cryptocurrencies***
+<br/><br/>
 
-## How to use
-#### Depencencies (install with pip):
-* json
-* requests
-* pandas
-* keras
-* tensorflow
-* silence_tensorflow (optional)
+### How to use:
+##### Dependencies:
+- json
+- requests
+- pandas
+- keras
+- tensorflow
+- silence_tensorflow (*optional*)
 
-#### Execution:
-* ##### Training:
-python3 main.py train
-* ##### Predicting:
-python3 main.py
+You can install these dependencies by running:
+`$ pip install {dependency}`
 
-#### Settings:
-##### All setting can be changed in settings.json
+
+##### Execution:
+This project can be ran in training or prediction mode.
+
+- Prediction mode:
+`$ python3 main.py`
+- Training mode:
+`$ python3 main.py train`
+<br/><br/>
+
+
+### Settings
+ All settings can be changed in `settings.json`
