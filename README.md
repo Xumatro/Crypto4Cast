@@ -2,8 +2,8 @@
 > ***Predict the future trajectory of cryptocurrencies***
 <br/><br/>
 
-### How to use:
-##### Dependencies:
+### How to use
+#### Dependencies:
 - json
 - requests
 - pandas
@@ -11,11 +11,11 @@
 - tensorflow
 - silence_tensorflow (*optional*)
 
-You can install these dependencies by running:
+These can be installed by running:
 `$ pip install {dependency}`
+<br/><br/>
 
-
-##### Execution:
+#### Execution:
 This project can be ran in training or prediction mode.
 
 - Prediction mode:
@@ -27,3 +27,16 @@ This project can be ran in training or prediction mode.
 
 ### Settings
  All settings can be changed in `settings.json`
+ 
+#### General:
+In here all general settings can be changed
+<br/><br/>
+
+- `base_url` and `api_key` are api settings
+- `base_currency` is the fiat currency, example: `USD`
+- `coin` is the coin you want to predict, example: `BTC`
+- `timeframe` is the number of entries to return
+- `granularity` is the lenght of a single entry, example: `day`
+- `conv_date` whether to convert the UNIX timestampt to readable date format
+- `trim` cut leading whitespaces from returned data
+
