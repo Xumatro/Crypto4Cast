@@ -225,7 +225,7 @@
           ],
           "dtype": "float32",
           "units": 1,
-          "activation": "exponential",
+          "activation": "linear",
           "use_bias": true,
           "kernel_initializer": {
             "class_name": "GlorotUniform",

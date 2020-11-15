@@ -62,9 +62,9 @@ def train(model, train, test, batchs, epochs):
         validation_data=test)
 
     # Get accuracy metric.
-    accuracy = model.evaluate(test[0], test[1], verbose=1)
+    loss = model.evaluate(test[0], test[1], verbose=1)
 
-    return model, accuracy
+    return model, loss
 
 # Load a pre-trained model to avoid training everytime.
 def load(filename, optimizer, loss_function):

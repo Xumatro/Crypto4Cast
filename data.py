@@ -6,7 +6,7 @@ def get_history(base_url, api_key, base_currency, coin, timeframe, granularity):
     
     # Build the correct URL from given parameters.
     url = (base_url + "data/v2/histo" + granularity + "?fsym=" + coin + "&tsym="
-        + base_currency + "&limit=" + str(timeframe-1) + "&api_key=" + api_key)
+        + base_currency + "&limit=" + str(timeframe - 1) + "&api_key=" + str(api_key))
 
     response = requests.get(url).json()
 
@@ -83,7 +83,7 @@ def normalize_matrix(matrix):
     # Loop over price matrix and get the sublists.
     for sublist in matrix:
         # Calculate the percent change of the entry compared to the first entry in the sublist.
-        normalized_matrix.append([((float(price) / float(sublist[0])) - 1.0) for price in sublist])
+        normalized_matrix.append([((price / sublist[0]) - 1.0) for price in sublist])
 
     return normalized_matrix
 

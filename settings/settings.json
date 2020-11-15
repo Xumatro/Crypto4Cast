@@ -1,19 +1,30 @@
 {
     "general": {
         "base_url": "https://min-api.cryptocompare.com/",
-        "keyfile": "key.txt",
+        "keyfile": "settings/key.txt",
         "base_currency": "USD",
-        "coin": "ETH",
+        "coin": "BTC",
         "timeframe": 1825,
         "granularity": "day",
         "conv_date": true,
         "trim": true
     },
+    "data": {
+        "sequential_len": 30,
+        "train_size": 0.85,
+        "hist_file": "data/coin_hist.json"
+    },
+    "graph": {
+        "graph_file": "data/coin_hist.png",
+        "show_grid": true,
+        "dpi": 350
+    },
     "neural_net": {
-        "rnn_file": "predictor.h5",
+        "rnn_trained_file": "model/predictor.h5",
+        "rnn_arch_file": "model/predictor.json",
         "batch_size": 1,
-        "epochs": 100,
-        "save": true,
+        "epochs": 15,
+        "save": false,
         "optimizer": "rmsprop",
         "loss_function": "mean_squared_error",
         "layers": [
@@ -21,47 +32,37 @@
                 "type": "GRU",
                 "units": 25,
                 "activation": "softsign",
-                "alpha": 0.1,
+                "alpha": null,
                 "return_seq": true
             },
             {
                 "type": "LSTM",
                 "units": 20,
                 "activation": "softplus",
-                "alpha": 0.15,
+                "alpha": null,
                 "return_seq": true
             },
             {
                 "type": "LSTM",
                 "units": 15,
                 "activation": "elu",
-                "alpha": 0.2,
+                "alpha": null,
                 "return_seq": true
             },
             {
                 "type": "GRU",
                 "units": 10,
                 "activation": "tanh",
-                "alpha": 0.1,
+                "alpha": null,
                 "return_seq": false
             },
             {
                 "type": "Dense",
                 "units": 1,
-                "activation": "exponential",
-                "alpha": 0.1,
+                "activation": "linear",
+                "alpha": null,
                 "return_seq": false
             }
         ]
-    },
-    "data": {
-        "sequential_len": 30,
-        "train_size": 0.85,
-        "hist_file": "coin_hist.json"
-    },
-    "graph": {
-        "filename": "value_of_coin.png",
-        "show_grid": true,
-        "dpi": 350
     }
 }

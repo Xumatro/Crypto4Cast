@@ -1,7 +1,7 @@
 import data, json, sys, graph, neural_net, numpy
 
 # Read all settings from "settings.json" file for easy acces.
-with open('settings.json', 'r') as settings:
+with open('settings/settings.json', 'r') as settings:
     settings = json.loads(settings.read())
     general_set = settings['general']
     rnn_set = settings['neural_net']
@@ -50,20 +50,20 @@ if __name__ == "__main__":
         # Print a description of the model.
         print(model.summary())
 
-        model, accuracy = neural_net.train(model, (x_tr, y_tr), (x_te, y_te), epochs=rnn_set['epochs'],
+        model, loss = neural_net.train(model, (x_tr, y_tr), (x_te, y_te), epochs=rnn_set['epochs'],
             batchs=rnn_set['batch_size'])
         
         # If "save" is set, save the trained model for later use, also save a json file with the model architecture.
         if rnn_set['save']:
-            model.save(rnn_set['rnn_file'])
-            with open('model.json', 'w') as model_file:
+            model.save(rnn_set['rnn_trained_file'])
+            with open('model.json'rnn_set['rnn_arch_file'], 'w') as model_file:
                 json_model = json.loads(model.to_json())
                 json.dump(json_model, model_file, indent=2)
 
-        print("\nModels final accuracy was: " + str(accuracy))
+        print("\nModels final loss was: " + str(loss))
 
     else:
-        model = neural_net.load(filename=rnn_set['rnn_file'], optimizer=rnn_set['optimizer'],
+        model = neural_net.load(filename=rnn_set['rnn_trained_file'], optimizer=rnn_set['optimizer'],
             loss_function=rnn_set['loss_function'])
 
         # Get data from last "seqential_len" entries in order to make a prediction.
@@ -78,4 +78,4 @@ if __name__ == "__main__":
             * (prediction + 1))[0, 0]))
 
         graph.plot_from_json(data=cleaned_history_data, show_grid=graph_set['show_grid'],
-            filename=graph_set['filename'], dpi=graph_set['dpi'])
+            filename=graph_set['graph_file'], dpi=graph_set['dpi'])
