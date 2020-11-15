@@ -56,7 +56,7 @@ if __name__ == "__main__":
         # If "save" is set, save the trained model for later use, also save a json file with the model architecture.
         if rnn_set['save']:
             model.save(rnn_set['rnn_trained_file'])
-            with open('model.json'rnn_set['rnn_arch_file'], 'w') as model_file:
+            with open(rnn_set['rnn_arch_file'], 'w') as model_file:
                 json_model = json.loads(model.to_json())
                 json.dump(json_model, model_file, indent=2)
 
