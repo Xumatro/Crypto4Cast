@@ -17,14 +17,14 @@
     "graph": {
         "graph_file": "data/coin_hist.png",
         "show_grid": true,
-        "dpi": 350
+        "dpi": 400
     },
     "neural_net": {
         "rnn_trained_file": "model/predictor.h5",
         "rnn_arch_file": "model/predictor.json",
         "batch_size": 1,
         "epochs": 15,
-        "save": false,
+        "save": true,
         "optimizer": "rmsprop",
         "loss_function": "mean_squared_error",
         "layers": [
