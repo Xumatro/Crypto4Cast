@@ -1,4 +1,4 @@
-# ***CryptoPredix*** [![](https://tokei.rs/b1/github/Xumatro/CryptoPredix)](https://github.com/Aaronepower/tokei) [![](https://img.shields.io/badge/license-MIT-brightgreen)](https://github.com/Xumatro/CryptoPredix/blob/main/LICENSE)
+# ***Crypto4Cast*** [![](https://tokei.rs/b1/github/Xumatro/Crypto4Cast)](https://github.com/Aaronepower/tokei) [![](https://img.shields.io/badge/license-MIT-brightgreen)](https://github.com/Xumatro/Crypto4Cast/blob/main/LICENSE)
 > ***Predict the future trajectory of cryptocurrencies***
 <br/><br/>
 
