@@ -1,68 +1,69 @@
 {
-    "general": {
-        "base_url": "https://min-api.cryptocompare.com/",
-        "keyfile": "settings/key.txt",
-        "base_currency": "USD",
-        "coin": "BTC",
-        "timeframe": 1825,
-        "granularity": "day",
-        "conv_date": true,
-        "trim": true
-    },
-    "data": {
-        "sequential_len": 30,
-        "train_size": 0.85,
-        "hist_file": "data/coin_hist.json"
-    },
-    "graph": {
-        "graph_file": "data/coin_hist.png",
-        "show_grid": true,
-        "dpi": 400
-    },
-    "neural_net": {
-        "rnn_trained_file": "model/predictor.h5",
-        "rnn_arch_file": "model/predictor.json",
-        "batch_size": 1,
-        "epochs": 15,
-        "save": true,
-        "optimizer": "rmsprop",
-        "loss_function": "mean_squared_error",
-        "layers": [
-            {
-                "type": "GRU",
-                "units": 25,
-                "activation": "softsign",
-                "alpha": null,
-                "return_seq": true
-            },
-            {
-                "type": "LSTM",
-                "units": 20,
-                "activation": "softplus",
-                "alpha": null,
-                "return_seq": true
-            },
-            {
-                "type": "LSTM",
-                "units": 15,
-                "activation": "elu",
-                "alpha": null,
-                "return_seq": true
-            },
-            {
-                "type": "GRU",
-                "units": 10,
-                "activation": "tanh",
-                "alpha": null,
-                "return_seq": false
-            },
-            {
-                "type": "Dense",
-                "units": 1,
-                "activation": "linear",
-                "alpha": null,
-                "return_seq": false
-            }
-        ]
-    }
+	"API": {
+		"base_url": "https://min-api.cryptocompare.com/",
+		"key_file": "settings/key.txt"
+	},
+	"Data": {
+		"res_sym": "USD",
+		"req_sym": "BTC",
+		"timeframe": 1916,
+		"granularity": "day",
+		"trim_leading_blank": true,
+		"series_lenght": 90,
+		"train_test_ratio": 0.85,
+		"prediction_len": 2,
+		"save_file": "data/history.json"
+	},
+	"RNN": {
+		"trained_file": "model/predictor.h5",
+		"arch_file": "model/predictor.json",
+		"loss_function": "mean_squared_error",
+		"optimizer": "rmsprop",
+		"batch_size": 1,
+		"epochs": 20,
+		"layers": [
+			{
+				"type": "GRU",
+				"units": 90,
+				"activation": "softsign",
+				"alpha": null,
+				"return_seq": true
+			},
+			{
+				"type": "LSTM",
+				"units": 60,
+				"activation": "softplus",
+				"alpha": null,
+				"return_seq": true
+			},
+			{
+				"type": "LSTM",
+				"units": 30,
+				"activation": "elu",
+				"alpha": null,
+				"return_seq": true
+			},
+			{
+				"type": "GRU",
+				"units": 15,
+				"activation": "tanh",
+				"alpha": null,
+				"return_seq": false
+			},
+			{
+				"type": "Dense",
+				"units": 2,
+				"activation": "linear",
+				"alpha": null,
+				"return_seq": false
+			}
+		]
+	},
+	"Graph": {
+		"DPI": 450,
+		"save_file": "data/history.png",
+		"dark_mode": true,
+		"data_lenght": 60,
+		"show_grid": true
+	}
 }

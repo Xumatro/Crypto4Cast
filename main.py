@@ -1,81 +1,119 @@
-import data, json, sys, graph, neural_net, numpy
+import json, sys, numpy, api, data, rnn, graph
 
-# Read all settings from "settings.json" file for easy acces.
-with open('settings/settings.json', 'r') as settings:
-    settings = json.loads(settings.read())
-    general_set = settings['general']
-    rnn_set = settings['neural_net']
-    data_set = settings['data']
-    graph_set = settings['graph']
 
-# Open the keyfile to the read private API key.
-with open(general_set['keyfile'], 'r') as keyfile:
-    api_key = keyfile.read()
+# Take API and data settings and retrieve nessecary data
+def get_data(api, json_settings):
+    # Print progress while gathering and transforming data
+
+    print("Retrieving history data...", end=" ")
+    result, data = api.get_history_data(data_set=json_settings['Data'])
+
+    # If returned result isn't succes, exit with errror
+    if result != "Succes!":
+        sys.exit(result)
+    print("done!")
+
+    print("Cleaning history data...", end=" ")
+    data.clean_history()
+    print("done!")
+
+    print("Converting JSON data to Pandas DataFrame...", end=" ")
+    data.create_data_frame()
+    print("done!")
+
+    print("Converting Pandas DataFrame to price matrix...", end=" ")
+    data.create_price_matrix()
+    print("done!")
+
+    print("Normalizing price matrix...", end=" ")
+    data.normalize_matrix()
+    print("done!")
+
+    # Write our organised and cleaned history data to a file.
+    with open(data.settings.save_file, "w") as hist_file:
+        json.dump(data.history, hist_file, indent=3)
+
+    return data
+
+# Train new model
+def train(api, json_settings):
+    print("Running in training mode.\n")
+
+    data = get_data(api, json_settings)
+
+    x_train, y_train, x_test, y_test = data.split_test_train()
+
+    #rnn_settings = rnn.RNNSettings(json_settings['RNN'])
+    network = rnn.RNN(rnn_set=json_settings['RNN'], data_set=data.settings)
+
+    print("\nTraining model...")
+    loss = network.train(train_data=(x_train, y_train), test_data=(x_test, y_test))
+    print("Done!\n")
+
+    return loss
+
+# Predict prices with already trained model
+def predict(api, json_settings):
+    print("Running in prediction mode.\n")
+
+    data = get_data(api, json_settings)
+
+    #rnn_settings = rnn.RNNSettings(json_settings['RNN'])
+    network = rnn.RNN(rnn_set=json_settings['RNN'], data_set=data.settings)
+    network.load()
+
+    matrix = numpy.array(data.price_matrix[-1])
+    matrix = numpy.reshape(matrix, (1, matrix.shape[0], 1))
+
+    print("Predicting price(s)...", end=" ")
+    predictions = network.predict(data=matrix)
+    print("Done!\n")
+
+    start_value = data.data_frame[-data.settings.series_lenght]
+    predictions = numpy.reshape(predictions, (predictions.shape[1]))
+
+    grapher = graph.Graph(json_settings['Graph'])
+    grapher.plot(data.data_frame)
+
+    return [(pred + 1) * start_value for pred in predictions]
+
+# Print usage and help message
+def print_help():
+    print("Usage: python3 main.py [MODE]")
+    print("\nAvailable modes:")
+
+    print("-h   --help              Print this help message")
+    print("-p   --predict           Predict price with trained model")
+    print("-t   --train             Train the model with new data")
+
+    print("\nYou can edit ./settings/settings.json to change all parameters")
+    print("Consult README.md for an explanation of all the available parameters")
+
 
 if __name__ == "__main__":
+
+    # Read all settings from "settings.json" file for easy acces.
+    with open('settings/settings.json', 'r') as settings:
+        json_settings = json.loads(settings.read())
+
     # Get command line arguments.
     arguments = sys.argv
 
-    history_data = data.get_history(base_url=general_set['base_url'], api_key=api_key, 
-        base_currency=general_set['base_currency'], coin=general_set['coin'],
-        timeframe=general_set['timeframe'], granularity=general_set['granularity'])
+    # Initalize API with appropriate settings
+    api = api.API(api_set=json_settings['API'])
 
-    # If the retrieved data isn't a dictionary, it is our custom error message.
-    # Valid data here should always be json which is represented in a dictionary.
-    if type(history_data) != dict:
-        sys.exit(history_data)
+    # If additional arguments were given, run corresponding mode. If not, print_help()
+    if len(arguments) > 1:
+            mode = arguments[1]
 
-    cleaned_history_data = data.clean_history(data=history_data,
-        convert_date=general_set['conv_date'], trim=general_set['trim'])
-
-    history_dataframe = data.to_dataframe(data=cleaned_history_data)
-
-    history_matrix = data.create_price_matrix(dataframe=history_dataframe,
-        seq_len=data_set['sequential_len'])
-
-    normalized_history_matrix = data.normalize_matrix(matrix=history_matrix)
-
-    x_tr, y_tr, x_te, y_te = data.split_test_train(matrix=normalized_history_matrix,
-        train_size=data_set['train_size'])
-
-    # Write our organised and cleaned history data to a file.
-    with open(data_set['hist_file'], "w") as hist_file:
-        json.dump(cleaned_history_data, hist_file, indent=2)
-
-    # If supplied argument was "train", train a new model.
-    if len(arguments) > 1 and arguments[1] == "train":
-        model = neural_net.new_rnn(layers=rnn_set['layers'], seq_len=data_set['sequential_len'],
-            optimizer=rnn_set['optimizer'], loss_function=rnn_set['loss_function'])
-
-        # Print a description of the model.
-        print(model.summary())
-
-        model, loss = neural_net.train(model, (x_tr, y_tr), (x_te, y_te), epochs=rnn_set['epochs'],
-            batchs=rnn_set['batch_size'])
-        
-        # If "save" is set, save the trained model for later use, also save a json file with the model architecture.
-        if rnn_set['save']:
-            model.save(rnn_set['rnn_trained_file'])
-            with open(rnn_set['rnn_arch_file'], 'w') as model_file:
-                json_model = json.loads(model.to_json())
-                json.dump(json_model, model_file, indent=2)
-
-        print("\nModels final loss was: " + str(loss))
+            if mode == "--train" or mode == "-t":
+                loss = train(api, json_settings)
+                print("Final loss value: ", loss)
+            elif mode == "predict" or mode == "-p":
+                predictions = predict(api, json_settings)
+                print("Future price(s): ", predictions)
+            else:
+                print_help()
 
     else:
-        model = neural_net.load(filename=rnn_set['rnn_trained_file'], optimizer=rnn_set['optimizer'],
-            loss_function=rnn_set['loss_function'])
-
-        # Get data from last "seqential_len" entries in order to make a prediction.
-        matrix = normalized_history_matrix[-1]
-        matrix = numpy.array(matrix)
-        matrix = numpy.reshape(matrix, (1, matrix.shape[0], 1))
-        
-        prediction = neural_net.predict(model=model, data=matrix, batchs=rnn_set['batch_size'])
-
-        # Deserialize our prediction.
-        print("Tomorrow's marketvalue will be: $" + str((history_dataframe[-data_set['sequential_len']]
-            * (prediction + 1))[0, 0]))
-
-        graph.plot_from_json(data=cleaned_history_data, show_grid=graph_set['show_grid'],
-            filename=graph_set['graph_file'], dpi=graph_set['dpi'])
+        print_help()
