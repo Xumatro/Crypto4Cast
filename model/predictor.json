@@ -8,7 +8,7 @@
             "config": {
                "batch_input_shape": [
                   null,
-                  89,
+                  88,
                   1
                ],
                "dtype": "float32",
@@ -24,7 +24,7 @@
                "trainable": true,
                "batch_input_shape": [
                   null,
-                  89,
+                  88,
                   1
                ],
                "dtype": "float32",
@@ -35,7 +35,7 @@
                "unroll": true,
                "time_major": false,
                "units": 90,
-               "activation": "softsign",
+               "activation": "tanh",
                "recurrent_activation": "sigmoid",
                "use_bias": true,
                "kernel_initializer": {
@@ -69,9 +69,9 @@
             }
          },
          {
-            "class_name": "LSTM",
+            "class_name": "GRU",
             "config": {
-               "name": "lstm_1",
+               "name": "gru_1",
                "trainable": true,
                "batch_input_shape": [
                   null
@@ -84,7 +84,7 @@
                "unroll": true,
                "time_major": false,
                "units": 60,
-               "activation": "softplus",
+               "activation": "tanh",
                "recurrent_activation": "sigmoid",
                "use_bias": true,
                "kernel_initializer": {
@@ -104,7 +104,6 @@
                   "class_name": "Zeros",
                   "config": {}
                },
-               "unit_forget_bias": true,
                "kernel_regularizer": null,
                "recurrent_regularizer": null,
                "bias_regularizer": null,
@@ -114,13 +113,14 @@
                "bias_constraint": null,
                "dropout": 0.0,
                "recurrent_dropout": 0.0,
-               "implementation": 2
+               "implementation": 2,
+               "reset_after": true
             }
          },
          {
-            "class_name": "LSTM",
+            "class_name": "GRU",
             "config": {
-               "name": "lstm_2",
+               "name": "gru_2",
                "trainable": true,
                "batch_input_shape": [
                   null
@@ -133,7 +133,7 @@
                "unroll": true,
                "time_major": false,
                "units": 30,
-               "activation": "elu",
+               "activation": "tanh",
                "recurrent_activation": "sigmoid",
                "use_bias": true,
                "kernel_initializer": {
@@ -153,7 +153,6 @@
                   "class_name": "Zeros",
                   "config": {}
                },
-               "unit_forget_bias": true,
                "kernel_regularizer": null,
                "recurrent_regularizer": null,
                "bias_regularizer": null,
@@ -163,7 +162,8 @@
                "bias_constraint": null,
                "dropout": 0.0,
                "recurrent_dropout": 0.0,
-               "implementation": 2
+               "implementation": 2,
+               "reset_after": true
             }
          },
          {
