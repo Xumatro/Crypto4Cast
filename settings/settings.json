@@ -25,21 +25,21 @@
 			{
 				"type": "GRU",
 				"units": 90,
-				"activation": "softsign",
+				"activation": "tanh",
 				"alpha": null,
 				"return_seq": true
 			},
 			{
-				"type": "LSTM",
+				"type": "GRU",
 				"units": 60,
-				"activation": "softplus",
+				"activation": "tanh",
 				"alpha": null,
 				"return_seq": true
 			},
 			{
-				"type": "LSTM",
+				"type": "GRU",
 				"units": 30,
-				"activation": "elu",
+				"activation": "tanh",
 				"alpha": null,
 				"return_seq": true
 			},
