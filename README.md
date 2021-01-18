@@ -6,21 +6,26 @@
 
 ## **How to use:**
 ### Dependencies
-- json
+- matplotlib
 - requests
 - pandas
 - keras
 - tensorflow
-- silence_tensorflow (*optional*)
+- silence_tensorflow (*optional*)*
 
 These can be installed by running: `$ pip install {dependency}`
+Tensorflow does not yet support python 3.9 so it is reccomended to create a python virtual environment with python 3.8. This can be done by running `$ python3.8 -m venv {environment name}` on Linux or Mac.
+This will create a folder called `{environment name}`, you will need to actvate this environment by running `$ source env/bin/activate` on Linux or Mac.
+Once activated you can install dependencies and run the program.
+
+* *If you choose not to install silence_tensorflow, you will need to edit 'rnn.py' and remove the first line.*
 <br/><br/>
 
 ### Execution
-This project can be ran in training or prediction mode.
+This project can be ran either in training or prediction mode.
 
-- Prediction mode: `$ python3 main.py`
-- Training mode: `$ python3 main.py train`
+- Prediction mode: `$ python3 main.py -p`
+- Training mode: `$ python3 main.py -t`
 <br/><br/>
 
 ---
