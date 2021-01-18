@@ -17,7 +17,7 @@ class RNN:
 
 		# If trained param is given, load model from disk instead of building from scratch
 		if trained:
-			self.load_model()
+			self.model_load()
 			return
 
 		self.model = Sequential()
@@ -58,7 +58,7 @@ class RNN:
 		return loss
 
 	# Load a pre-trained model to avoid training everytime
-	def load(self):
+	def model_load(self):
 		self.model = load_model(self.settings.trained_file, custom_objects={ 'LeakyReLU': LeakyReLU })
 		self.model.compile(optimizer=self.settings.optimizer, loss=self.settings.loss_function)
 
