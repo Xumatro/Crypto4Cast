@@ -112,7 +112,7 @@ if __name__ == "__main__":
     api = api.API(api_set=json_settings['API'])
 
     # If additional arguments were given, run corresponding mode. If not, print help message
-    if len(arguments) > 1:
+    if len(arguments) == 2:
             mode = arguments[1]
 
             if mode == "--train" or mode == "-t":
