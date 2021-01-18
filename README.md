@@ -34,46 +34,50 @@ This project can be ran either in training or prediction mode.
 ---
 
 ## **Settings**
- All settings can be changed in `settings.json`
+ All settings can be changed in `settings/settings.json`
 <br/><br/>
  
-## `General`
-In this field, all general settings can be changed
+## `API`
+In this field, all API specific settings can be changed
 
-- `base_url` and `api_key` are api settings
-- `base_currency` is the fiat currency, example: `USD`
-- `coin` is the coin you want to predict, example: `BTC`
-- `timeframe` is the number of entries to return
-- `granularity` is the lenght of a single entry, example: `day`
-- `conv_date` whether to convert the UNIX timestampt to readable date format
-- `trim` cut leading whitespaces from returned data
+- `base_url` the base url of your API
+- `key_file` the file where your API key is saved
 <br/><br/>
 
 ## `Data`
 In this field, all data specific settings can be changed
 
-- `sequential_len` is the number of entries to group the data in
-- `train_size` is the ration between the train and test dataset
-- `hist_file` is the filename of the file to save the data to
+- `res_sym` is the symbol wou want to recieve the price in, example: `EUR`
+- `req_sym` is the coin you want to predict, example: `BTC`
+- `timeframe` is the number of entries to return
+- `granularity` is the lenght of a single entry, example: `day`
+- `trim_leading_blank` whether or not to cut leading whitespaces from returned data
+- `series_lenght` is the number of entries to group the data in
+- `train_test_ratio` is the ratio between the train and test dataset
+- `prediction_len` the lenght of the series to predict, 1 would predict today's average
+- `save_file` is the filename of the file to save the data to
 <br/><br/>
 
 ## `Graph`
 In this field, all graphing specific settings can be changed
 
-- `graph_file` is the filename to save the graph to
+- `DPI` is the PI of the image to be generated
+- `save_file` is the filename to save the graph to
+- `darm_mode` whether or not to use a dark theme
+- `data_lenght` the lenght of the data series to use, use `all` to use the whole series
 - `show_grid` whether to draw gridlines in the grapbh
-- `dpi` the dpi setting for the image file
 <br/><br/>
 
-## `neural_net`
+## `RNN`
 In this field, all the neural net specific settings can be changed
 
-- `rnn_file` is the filename to save the trained model to
+- `trained_file` is the filename to save the trained model to
+- `arch_file` is the filename to save the architecture of the model to
+- `loss_function` the function to estimate the loss while training
+- `optimizer` the optimizer algorithm to use while training
 - `batch_size` is the number of chunks to split the data between for the network
 - `epochs` is the number of training cycles
-- `save` whether to save the model after training or not
-- `optimizer` the optimizer algorithm to use while training
-- `loss_function` the function to estimate the loss while training
+
 - `layers` array of layers to build the network from
 	- `type` the type of neurons layer consists of
 	- `units` the number of neurons in this layer
