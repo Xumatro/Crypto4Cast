@@ -17,7 +17,7 @@ Read the docs, you lazy fuck!
 - tensorflow
 - silence_tensorflow (*optional*)*
 
-These can be installed by running: `$ pip install {dependency}`.
+These can be installed manually by running: `$ pip install {dependency}`, or all at once with `$ pip install -r requirements.txt`
 
 Tensorflow does not yet support python 3.9 so it is reccomended to create a python virtual environment with python 3.8.
 
@@ -25,7 +25,8 @@ This can be done by running `$ python3.8 -m venv {environment name}` on Linux or
 This will create a folder called `{environment name}`, you will need to actvate this environment by running `$ source env/bin/activate` on Linux or Mac.
 Once activated you can install dependencies and run the program.
 
-**If you choose not to install silence_tensorflow, you will need to edit 'rnn.py' and remove the first line.*
+**If you choose not to install silence_tensorflow, you will need to edit 'rnn.py' and remove the first line.
+If you choose to install dependencies the automatic way, silence_tensorflow is install by default.*
 <br/><br/>
 
 ### Execution
