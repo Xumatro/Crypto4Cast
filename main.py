@@ -29,9 +29,14 @@ def get_data(api, json_settings):
     data.normalize_matrix()
     print("done!")
 
+    print("Saving data for your viewing pleasure...", end=" ")
     # Write the organised and cleaned history data to a file
     with open(data.settings.save_file, "w") as hist_file:
         json.dump(data.history, hist_file, indent=3)
+
+        grapher = graph.Grapher(json_settings['Graph'])
+        grapher.plot(data.data_frame)
+    print("done!")
 
     return data
 
@@ -48,7 +53,7 @@ def train(api, json_settings):
     network = rnn.RNN(rnn_set=json_settings['RNN'],
         data_set=data.settings, trained=False)
     print("done!")
-    print(rnn.model.summary())
+    print(network.model.summary())
 
     print("\nTraining model...")
     loss = network.train(train_data=(x_train, y_train), test_data=(x_test, y_test))
@@ -78,9 +83,6 @@ def predict(api, json_settings):
     start_value = data.data_frame[-data.settings.series_lenght]
     predictions = numpy.reshape(predictions, (predictions.shape[1]))
 
-    grapher = graph.Grapher(json_settings['Graph'])
-    grapher.plot(data.data_frame)
-
     # Serialize predictions by multiplying with start value
     return [(pred + 1) * start_value for pred in predictions]
 
@@ -93,8 +95,8 @@ def print_help():
     print("-p   --predict           Predict price with trained model")
     print("-t   --train             Train the model with new data")
 
-    print("\nYou can edit ./settings/settings.json to change all parameters")
-    print("Consult README.md for an explanation of all the available parameters")
+    print("\nYou can edit 'settings/settings.json' to change all parameters")
+    print("Consult 'README.md' for an explanation of all the available parameters")
 
 
 if __name__ == "__main__":
