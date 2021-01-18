@@ -1,4 +1,5 @@
 import silence_tensorflow.auto
+
 from keras.layers import LSTM, Dense, Activation, LeakyReLU, GRU
 from keras.activations import elu, tanh
 from keras.models import Sequential, load_model
@@ -9,36 +10,44 @@ import json
 
 # Define RNN class to hold model and methods
 class RNN:
-	def __init__(self, rnn_set, data_set):
-		self.model = Sequential()
+	def __init__(self, rnn_set, data_set, trained):
+
+		# Set given settings for network
 		self.settings = RNNSettings(rnn_set)
+
+		# If trained param is given, load model from disk instead of building from scratch
+		if trained:
+			self.load_model()
+			return
+
+		self.model = Sequential()
 		
-		# Loop through layers and build model.
+		# Loop through layers and build model
 		for index, layer in enumerate(self.settings.layers):
 			activation = get_activation(activation=layer['activation'], alpha=layer['alpha'])
 
-			# Set "first" to True if "index" is zero, else False.
+			# Set 'first' to True if 'index' is zero, else False
 			layer = construct_layer(type=layer['type'], units=layer['units'], activation=activation,
 				ret_seq=layer['return_seq'], first=(index == 0), seq_len=data_set.series_lenght)
 
-			# Append layer to model.
+			# Append layer to model
 			self.model.add(layer)
 
 		self.model.build()
-		
-		# Set the right optimizer and loss function.
+	
+		# Set the right optimizer and loss function
 		self.model.compile(optimizer=self.settings.optimizer,loss=self.settings.loss_function)
-
-	# Train the model on the given dataset.
+			
+	# Train the model on the given dataset
 	def train(self, train_data, test_data):
 
-		# Train the model with the given parameters.
+		# Train the model with the given parameters
 		self.model.fit(x=train_data[0], y=train_data[1],
 			batch_size=self.settings.batch_size,
 			epochs=self.settings.epochs,
 			validation_data=test_data)
 
-		# Get accuracy metric.
+		# Get accuracy metric
 		loss = self.model.evaluate(test_data[0], test_data[1], verbose=1)
 
 		self.model.save(self.settings.trained_file)
@@ -48,12 +57,12 @@ class RNN:
 
 		return loss
 
-	# Load a pre-trained model to avoid training everytime.
+	# Load a pre-trained model to avoid training everytime
 	def load(self):
 		self.model = load_model(self.settings.trained_file, custom_objects={ 'LeakyReLU': LeakyReLU })
 		self.model.compile(optimizer=self.settings.optimizer, loss=self.settings.loss_function)
 
-	# Predict future with model.
+	# Predict future with model
 	def predict(self, data):
 		prediction = self.model.predict(data, batch_size=self.settings.batch_size)
 
@@ -72,19 +81,19 @@ class RNNSettings:
 		self.epochs = rnn_set['epochs']
 
 
-# Return the right activation function for given input.
+# Return the right activation function for given input
 def get_activation(activation, alpha):
 
-	# if "activation" is equal to "leaky_relu" get custom activation.
+	# if 'activation' is equal to 'leaky_relu' get custom activation
 	if activation == 'leaky_relu':
 		return LeakyReLU(alpha=alpha)
 
 	return activation
 
-# Return layer based on given input.
+# Return layer based on given input
 def construct_layer(type, units, activation, ret_seq, first, seq_len):
 
-	# Define type set to construct the right layer.
+	# Define type set to construct the right layer
 	types = {
 		'Dense': Dense(units=units, activation=activation,
 			input_shape=(seq_len-1, 1) if first else ()),
