@@ -29,7 +29,7 @@ def get_data(api, json_settings):
     data.normalize_matrix()
     print("done!")
 
-    # Write our organised and cleaned history data to a file.
+    # Write the organised and cleaned history data to a file
     with open(data.settings.save_file, "w") as hist_file:
         json.dump(data.history, hist_file, indent=3)
 
@@ -41,10 +41,14 @@ def train(api, json_settings):
 
     data = get_data(api, json_settings)
 
+    # Split data in train and test sets
     x_train, y_train, x_test, y_test = data.split_test_train()
 
-    #rnn_settings = rnn.RNNSettings(json_settings['RNN'])
-    network = rnn.RNN(rnn_set=json_settings['RNN'], data_set=data.settings)
+    print("Building model...", end=" ")
+    network = rnn.RNN(rnn_set=json_settings['RNN'],
+        data_set=data.settings, trained=False)
+    print("done!")
+    print(rnn.model.summary())
 
     print("\nTraining model...")
     loss = network.train(train_data=(x_train, y_train), test_data=(x_test, y_test))
@@ -58,10 +62,11 @@ def predict(api, json_settings):
 
     data = get_data(api, json_settings)
 
-    #rnn_settings = rnn.RNNSettings(json_settings['RNN'])
-    network = rnn.RNN(rnn_set=json_settings['RNN'], data_set=data.settings)
-    network.load()
+    # Load model from disk
+    network = rnn.RNN(rnn_set=json_settings['RNN'],
+        data_set=data.settings, trained=True)
 
+    # Reshape price matrix so Tensorflow can work with it
     matrix = numpy.array(data.price_matrix[-1])
     matrix = numpy.reshape(matrix, (1, matrix.shape[0], 1))
 
@@ -69,12 +74,14 @@ def predict(api, json_settings):
     predictions = network.predict(data=matrix)
     print("Done!\n")
 
+    # Get start value of the series we fed to network
     start_value = data.data_frame[-data.settings.series_lenght]
     predictions = numpy.reshape(predictions, (predictions.shape[1]))
 
-    grapher = graph.Graph(json_settings['Graph'])
+    grapher = graph.Grapher(json_settings['Graph'])
     grapher.plot(data.data_frame)
 
+    # Serialize predictions by multiplying with start value
     return [(pred + 1) * start_value for pred in predictions]
 
 # Print usage and help message
@@ -102,7 +109,7 @@ if __name__ == "__main__":
     # Initalize API with appropriate settings
     api = api.API(api_set=json_settings['API'])
 
-    # If additional arguments were given, run corresponding mode. If not, print_help()
+    # If additional arguments were given, run corresponding mode. If not, print help message
     if len(arguments) > 1:
             mode = arguments[1]
 

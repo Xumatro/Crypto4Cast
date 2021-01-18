@@ -1,25 +1,26 @@
 from matplotlib import pyplot
 
-# Define graph class to hold grapher an methods
-class Graph:
+# Define grapher class to hold grapher and methods
+class Grapher:
 	def __init__(self, graph_set):
 		self.settings = GraphSettings(graph_set)
 
 	# Plot and save graph from data
 	def plot(self, data):
 
-		# Is lenght isn'r "all", use the last "lenght" of data
+		# Is lenght isn't 'all', use the last 'lenght' of data
 		if self.settings.data_lenght != "all":
 			data = data[-self.settings.data_lenght:]
 		
-		# Generate x axis values, counting down from len(data)
+		# Generate x axis (time) values, counting down from len(data)
 		entries = [*range(-len(data)+1, 0), 0]
 		values = []
 
-		# Add data to values since we cant use data directly
+		# Add data to values since we cant use a pandas dataframe directly
 		for entry in data:
 			values.append(entry)
 
+		# Set dark theme
 		if self.settings.dark_mode:
 			pyplot.style.use('dark_background')
 

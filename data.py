@@ -1,7 +1,7 @@
 import datetime, pandas, numpy
 
 
-# Define Data class to hold all the gathered data
+# Define Data class to hold all the gathered data and methods to transform it
 class Data:
 	def __init__(self, response, data_set):
 		self.settings = data_set
@@ -23,7 +23,7 @@ class Data:
 				.strftime('%Y-%m-%d'))
 			del entry['time']
 
-			# Add an "average" field to every entry of the history data
+			# Add an 'average' field to every entry of the history data
 			entry['average'] = (entry['high'] + entry['low']) / 2
 
 			# If trim is set, set startindex to the index of the first nonzero value
@@ -33,7 +33,7 @@ class Data:
 				else:
 					stop_trim = True
 
-			# Delete all unnecessary info, we will only need a datestamp and  an average price
+			# Delete all unnecessary info, we will only need a datestamp and an average price
 			unnecessary_data = (["conversionSymbol", "conversionType", "volumeto",
 			"volumefrom", 'close', 'open', 'high', 'low'])
 
@@ -54,13 +54,18 @@ class Data:
 		# Group our data by date
 		self.data_frame = data_frame.groupby('date').mean()['average']
 
-	# Convert our data to a series of nested lists where every list contains data from "seq_len" entries
+	# Convert our data to a series of nested lists where every list contains data from 'series_lenght' entries
 	def create_price_matrix(self):
 		matrix = []
 
-		# Loop over data in chunks of "seq_len" and add a sublist to the price matrix
+		# Loop over data in chunks of 'series_lenght' and add a sublist to the price matrix
 		for index in range(0, len(self.data_frame) - (self.settings.series_lenght - 1)):
 			matrix.append(self.data_frame[index:(index + self.settings.series_lenght)])
+			# If we started with data of lenght n, our matrix would now look like this:
+			# [[0..series_lenght],
+			# [1..series_lenght+1],
+			# ....
+			# [n-series_lenght..n]]
 	
 		self.price_matrix = numpy.array(matrix)
 
@@ -68,29 +73,28 @@ class Data:
 	def normalize_matrix(self):
 		normalized_matrix = []
 
-		# Loop over price matrix and get the sublists.
+		# Loop over price matrix and get the sublists
 		for sublist in self.price_matrix:
-			# Calculate the percent change of the entry compared to the first entry in the sublist.
+			# Calculate the percent change of the entry compared to the first entry in the sublist
 			normalized_matrix.append([((price / sublist[0]) - 1.0) for price in sublist])
 
 		self.price_matrix = numpy.array(normalized_matrix)
 
-
 	# Split the price matrix into test and train datasets
 	def split_test_train(self):
 
-		# Define spliting point base on "train_size"
+		# Define spliting point base on 'train_size'
 		split_point = int(round(self.settings.train_test_ratio * len(self.price_matrix)))
 
-		# Set train dataset to everything up to "split_point"
+		# Set train dataset to everything up to 'split_point'
 		train_set = self.price_matrix[:split_point]
 		test_set =self.price_matrix[split_point:]
 
-		# Remove last entry from "x_" lists, and everything but last the last entry from "y_" lists
+		# Remove last entry from 'x_' lists, and everything but last the last entry from 'y_' lists
 		x_train, y_train = train_set[:, :-(self.settings.prediction_len)], train_set[:, -(self.settings.prediction_len):]
 		x_test, y_test = test_set[:, :-(self.settings.prediction_len)], test_set[:, -(self.settings.prediction_len):]
 
-		# Reshape lists into tensorflow format.
+		# Reshape lists into Tensorflow format.
 		x_train = numpy.reshape(x_train, (x_train.shape[0], x_train.shape[1], 1))
 		x_test = numpy.reshape(x_test, (x_test.shape[0], x_test.shape[1], 1))
 		y_train = numpy.reshape(y_train, (y_train.shape[0], y_train.shape[1], 1))

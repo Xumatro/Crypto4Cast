@@ -6,9 +6,13 @@ class API:
 	def __init__(self, api_set):
 		self.settings = APISettings(api_set)
 
+	# Retrieve history data from specified API
 	def get_history_data(self, data_set):
+
+		# Use appropriate settings for data
 		data_set = data.DataSettings(data_set)
 
+		# Build up URL from components
 		url = (self.settings.base_url + "data/v2/histo" + data_set.granularity + "?fsym=" + data_set.req_sym + "&tsym="
 			+ data_set.res_sym + "&limit=" + str(data_set.timeframe - 1) + "&api_key=" + str(self.settings.api_key))
 
