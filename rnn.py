@@ -27,8 +27,9 @@ class RNN:
 			activation = get_activation(activation=layer['activation'], alpha=layer['alpha'])
 
 			# Set 'first' to True if 'index' is zero, else False
-			layer = construct_layer(type=layer['type'], units=layer['units'], activation=activation,
-				ret_seq=layer['return_seq'], first=(index == 0), seq_len=data_set.series_lenght)
+			layer = construct_layer(type=layer['type'], units=layer['units'],
+				activation=activation, ret_seq=layer['return_seq'], first=(index == 0),
+				seq_len=data_set.series_lenght, prediction_len=data_set.prediction_len)
 
 			# Append layer to model
 			self.model.add(layer)
@@ -91,16 +92,16 @@ def get_activation(activation, alpha):
 	return activation
 
 # Return layer based on given input
-def construct_layer(type, units, activation, ret_seq, first, seq_len):
+def construct_layer(type, units, activation, ret_seq, first, seq_len, prediction_len):
 
 	# Define type set to construct the right layer
 	types = {
 		'Dense': Dense(units=units, activation=activation,
-			input_shape=(seq_len-1, 1) if first else ()),
+			input_shape=(seq_len-prediction_len, 1) if first else ()),
 		'LSTM': LSTM(units=units, activation=activation, return_sequences=ret_seq,
-			input_shape=(seq_len-1, 1) if first else (), unroll=True),
+			input_shape=(seq_len-prediction_len, 1) if first else (), unroll=True),
 		'GRU': GRU(units=units, activation=activation, return_sequences=ret_seq,
-			input_shape=(seq_len-1, 1) if first else (), unroll=True)
+			input_shape=(seq_len-prediction_len, 1) if first else (), unroll=True)
 	}
 
 	return types.get(type)
