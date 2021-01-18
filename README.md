@@ -47,7 +47,7 @@ In this field, all API specific settings can be changed
 - `base_url` the base url of your API
 - `key_file` the file where your API key is saved
 
-It must be noted that if another API is used, the program will likely break. Different API's will likely use different filed names in the returned json data, if this is the case, you can maually change the json fields in `data.py` and `api.py`, the current field names should be self-explanatory regarding the data they hold. Different API's might also require different authentication schemes, which you would have to implement yourself. If you do not want to go trough the trouble of doing all this, create an account and API at [CryptoCompare](https://cryptocompare.com), and pase your API key into `settings/key.txt`.
+It must be noted that if another API is used, the program will likely break. Different API's will likely use different filed names in the returned JSON data, if this is the case, you can maually change the JSON fields in `data.py` and `api.py`, the current field names should be self-explanatory regarding the data they hold. Different API's might also require different authentication schemes, which you would have to implement yourself. If you do not want to go trough the trouble of doing all this, create an account and API at [CryptoCompare](https://cryptocompare.com), and pase your API key into `settings/key.txt`.
 <br/><br/>
 
 ## `Data`
