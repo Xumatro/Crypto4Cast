@@ -1,4 +1,4 @@
 __pycache__
 *.pyc
-key.txt
+api_key.txt
 env
