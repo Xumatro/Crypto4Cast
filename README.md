@@ -7,7 +7,18 @@
 ## **How to use:**
 
 ### TL;DR
-Read the docs, you lazy fuck!
+- Create an account at [CryptoCompare](https://cryptocompare.com)
+- Create an API in your account and copy the API-key
+- Paste your API-key in `settings/api_key.txt`
+- Create a python3.8 virtual environment and activate it.
+- Run `$ pip install -r requirements.txt`
+- Edit the `res`- and `req_sym` fields in the `Data` field of `settings/settings.json` for the crypto and FIAT* currency respectively
+- Run `$ python main.py -t` to train a network
+- Run `$ python main.py -p` to predict price*
+- voilà!
+
+**You can use a non-FIAT currency such as `ETH` or `USDT` as well in `res_sym`, but is it recommended to stick with a trading pair supported by your exchange.*
+<br/>**The default prediction mode gives two values, todays and tomorrows average respectively*
 
 ### Dependencies
 - matplotlib
@@ -18,16 +29,14 @@ Read the docs, you lazy fuck!
 - silence_tensorflow (*optional*)*
 
 These can be installed manually by running: `$ pip install {dependency}`, or all at once with `$ pip install -r requirements.txt`
-
-Tensorflow does not yet support python 3.9 so it is reccomended to create a python virtual environment with python 3.8.
-
-This can be done by running `$ python3.8 -m venv {environment name}` on Linux or Mac.
+<br/>Tensorflow does not yet support python 3.9 so it is reccomended to create a python virtual environment with python 3.8.
+<br/>This can be done by running `$ python3.8 -m venv {environment name}` on Linux or Mac.
 This will create a folder called `{environment name}`, you will need to actvate this environment by running `$ source env/bin/activate` on Linux or Mac.
 Once activated you can install dependencies and run the program.
 
 **If you choose not to install silence_tensorflow, you will need to edit 'rnn.py' and remove the first line.
 If you choose to install dependencies the automatic way, silence_tensorflow is install by default.*
-<br/><br/>
+<br/>
 
 ### Execution
 This project can be ran either in training or prediction mode.
