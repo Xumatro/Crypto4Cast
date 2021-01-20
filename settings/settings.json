@@ -21,7 +21,7 @@
 		"loss_function": "mean_squared_error",
 		"optimizer": "rmsprop",
 		"batch_size": 1,
-		"epochs": 20,
+		"epochs": 10,
 		"layers": [
 			{
 				"type": "GRU",
