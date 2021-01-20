@@ -1,7 +1,8 @@
 {
 	"API": {
 		"base_url": "https://min-api.cryptocompare.com/",
-		"key_file": "settings/key.txt"
+		"key_file": "settings/api_key.txt",
+		"exchange": "Kraken"
 	},
 	"Data": {
 		"res_sym": "USD",
