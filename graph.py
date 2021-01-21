@@ -16,7 +16,7 @@ class Grapher:
 		entries = [*range(-len(data)+1, 0), 0]
 		values = []
 
-		# Add data to values since we cant use a pandas dataframe directly
+		# Add data to values since we can't use a pandas dataframe directly
 		for entry in data:
 			values.append(entry)
 

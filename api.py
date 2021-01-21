@@ -6,7 +6,7 @@ class API:
 	def __init__(self, api_set):
 		self.settings = APISettings(api_set)
 
-	# Retrieve history data from specified API
+	# Retreive history data from specified API
 	def get_history_data(self, data_set):
 
 		# Use appropriate settings for data
@@ -24,6 +24,7 @@ class API:
 		if response['Response'] == "Error":
 			return ("Failure retrieving data!\n" + response['Message']), None
 
+		# Build Data object from retreived data, and return it
 		return "Succes!", data.Data(response=response, data_set=data_set)
 
 

@@ -1,11 +1,11 @@
 import json, sys, numpy, api, data, rnn, graph
 
 
-# Take API and data settings and retrieve nessecary data
+# Take API and data settings and retreive necessary data
 def get_data(api, json_settings):
     # Print progress while gathering and transforming data
 
-    print("Retrieving history data...", end=" ")
+    print("Retreiving history data...", end=" ")
     result, data = api.get_history_data(data_set=json_settings['Data'])
 
     # If returned result isn't succes, exit with errror
@@ -101,7 +101,7 @@ def print_help():
 
 if __name__ == "__main__":
 
-    # Read all settings from "settings.json" file for easy acces.
+    # Read all settings from "settings.json" file for easy access.
     with open('settings/settings.json', 'r') as settings:
         json_settings = json.loads(settings.read())
 

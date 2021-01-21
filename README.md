@@ -17,8 +17,8 @@
 - Run `$ python main.py -p` to predict price*
 - voilà!
 
-**You can use a non-FIAT currency such as `ETH` or `USDT` as well in `res_sym`, but is it recommended to stick with a trading pair supported by your exchange.*
-<br/>**The default prediction mode gives two values, todays and tomorrows average respectively*
+**You can use a non-FIAT currency such as `ETH` or `USDT` as well in `res_sym`, but it is recommended to stick with a trading pair supported by your exchange.*
+<br/>**The default prediction mode gives two values, today's and tomorrow's average respectively*
 
 ### Dependencies
 - matplotlib
@@ -35,7 +35,7 @@ This will create a folder called `{environment name}`, you will need to actvate 
 Once activated you can install dependencies and run the program.
 
 **If you choose not to install silence_tensorflow, you will need to edit 'rnn.py' and remove the first line.
-If you choose to install dependencies the automatic way, silence_tensorflow is install by default.*
+If you choose to install dependencies the automatic way, silence_tensorflow will be installed by default.*
 <br/>
 
 ### Execution
@@ -57,13 +57,13 @@ In this field, all API specific settings can be changed
 - `base_url` the base url of your API
 - `key_file` the file where your API key is saved
 
-It must be noted that if another API is used, the program will likely break. Different API's will likely use different filed names in the returned JSON data, if this is the case, you can maually change the JSON fields in `data.py` and `api.py`, the current field names should be self-explanatory regarding the data they hold. Different API's might also require different authentication schemes, which you would have to implement yourself. If you do not want to go trough the trouble of doing all this, create an account and API at [CryptoCompare](https://cryptocompare.com), and pase your API key into `settings/key.txt`.
+It must be noted that if another API is used, the program will likely break. Different API's will likely use different filed names in the returned JSON data, if this is the case, you can manually change the JSON fields in `data.py` and `api.py`, the current field names should be self-explanatory regarding the data they hold. Different API's might also require different authentication schemes, which you would have to implement yourself. If you do not want to go trough the trouble of doing all this, create an account and API at [CryptoCompare](https://cryptocompare.com), and paste your API key into `settings/key.txt`.
 <br/><br/>
 
 ## `Data`
 In this field, all data specific settings can be changed
 
-- `res_sym` is the symbol wou want to recieve the price in, example: `EUR`
+- `res_sym` is the symbol wou want to receive the price in, example: `EUR`
 - `req_sym` is the coin you want to predict, example: `BTC`
 - `timeframe` is the number of entries to return
 - `granularity` is the lenght of a single entry, example: `day`
@@ -79,9 +79,9 @@ In this field, all graphing specific settings can be changed
 
 - `DPI` is the PI of the image to be generated
 - `save_file` is the filename to save the graph to
-- `darm_mode` whether or not to use a dark theme
+- `dark_mode` whether or not to use a dark theme
 - `data_lenght` the lenght of the data series to use, use `all` to use the whole series
-- `show_grid` whether to draw gridlines in the grapbh
+- `show_grid` whether to draw gridlines in the graph
 <br/><br/>
 
 ## `RNN`
