@@ -8,23 +8,23 @@
             "config": {
                "batch_input_shape": [
                   null,
-                  88,
+                  90,
                   1
                ],
                "dtype": "float32",
                "sparse": false,
                "ragged": false,
-               "name": "gru_input"
+               "name": "lstm_input"
             }
          },
          {
-            "class_name": "GRU",
+            "class_name": "LSTM",
             "config": {
-               "name": "gru",
+               "name": "lstm",
                "trainable": true,
                "batch_input_shape": [
                   null,
-                  88,
+                  90,
                   1
                ],
                "dtype": "float32",
@@ -34,8 +34,8 @@
                "stateful": false,
                "unroll": true,
                "time_major": false,
-               "units": 90,
-               "activation": "tanh",
+               "units": 50,
+               "activation": "softmax",
                "recurrent_activation": "sigmoid",
                "use_bias": true,
                "kernel_initializer": {
@@ -55,6 +55,7 @@
                   "class_name": "Zeros",
                   "config": {}
                },
+               "unit_forget_bias": true,
                "kernel_regularizer": null,
                "recurrent_regularizer": null,
                "bias_regularizer": null,
@@ -64,8 +65,7 @@
                "bias_constraint": null,
                "dropout": 0.0,
                "recurrent_dropout": 0.0,
-               "implementation": 2,
-               "reset_after": true
+               "implementation": 2
             }
          },
          {
@@ -83,8 +83,8 @@
                "stateful": false,
                "unroll": true,
                "time_major": false,
-               "units": 60,
-               "activation": "tanh",
+               "units": 35,
+               "activation": "sigmoid",
                "recurrent_activation": "sigmoid",
                "use_bias": true,
                "kernel_initializer": {
@@ -121,55 +121,6 @@
             "class_name": "GRU",
             "config": {
                "name": "gru_2",
-               "trainable": true,
-               "batch_input_shape": [
-                  null
-               ],
-               "dtype": "float32",
-               "return_sequences": true,
-               "return_state": false,
-               "go_backwards": false,
-               "stateful": false,
-               "unroll": true,
-               "time_major": false,
-               "units": 30,
-               "activation": "tanh",
-               "recurrent_activation": "sigmoid",
-               "use_bias": true,
-               "kernel_initializer": {
-                  "class_name": "GlorotUniform",
-                  "config": {
-                     "seed": null
-                  }
-               },
-               "recurrent_initializer": {
-                  "class_name": "Orthogonal",
-                  "config": {
-                     "gain": 1.0,
-                     "seed": null
-                  }
-               },
-               "bias_initializer": {
-                  "class_name": "Zeros",
-                  "config": {}
-               },
-               "kernel_regularizer": null,
-               "recurrent_regularizer": null,
-               "bias_regularizer": null,
-               "activity_regularizer": null,
-               "kernel_constraint": null,
-               "recurrent_constraint": null,
-               "bias_constraint": null,
-               "dropout": 0.0,
-               "recurrent_dropout": 0.0,
-               "implementation": 2,
-               "reset_after": true
-            }
-         },
-         {
-            "class_name": "GRU",
-            "config": {
-               "name": "gru_3",
                "trainable": true,
                "batch_input_shape": [
                   null
@@ -218,7 +169,7 @@
          {
             "class_name": "Dense",
             "config": {
-               "name": "dense_4",
+               "name": "dense_3",
                "trainable": true,
                "batch_input_shape": [
                   null
