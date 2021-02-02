@@ -60,8 +60,10 @@ class RNN:
 
 	# Load a pre-trained model to avoid training everytime
 	def model_load(self):
-		self.model = load_model(self.settings.trained_file, custom_objects={ 'LeakyReLU': LeakyReLU })
-		self.model.compile(optimizer=self.settings.optimizer, loss=self.settings.loss_function)
+		self.model = load_model(self.settings.trained_file,
+			custom_objects={ 'LeakyReLU': LeakyReLU })
+		self.model.compile(optimizer=self.settings.optimizer,
+			loss=self.settings.loss_function)
 
 	# Predict future with model
 	def predict(self, data):

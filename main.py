@@ -111,7 +111,8 @@ if __name__ == "__main__":
     # Initalize API with appropriate settings
     api = api.API(api_set=json_settings['API'])
 
-    # If additional arguments were given, run corresponding mode. If not, print help message
+    # If additional arguments were given, run corresponding mode.
+    # If not, print help message
     if len(arguments) == 2:
             mode = arguments[1]
 

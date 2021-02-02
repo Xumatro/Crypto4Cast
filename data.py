@@ -63,7 +63,8 @@ class Data:
 		# Group our data by date
 		self.data_frame = data_frame.groupby('date').mean()['course']
 
-	# Convert our data to a series of nested lists where every list contains data from 'series_lenght' entries
+	# Convert our data to a series of nested lists where every
+	# list contains data from 'series_lenght' entries
 	def create_price_matrix(self):
 		matrix = []
 
@@ -100,8 +101,10 @@ class Data:
 		test_set =self.price_matrix[split_point:]
 
 		# Remove last entry from 'x_' lists, and everything but last the last entry from 'y_' lists
-		x_train, y_train = train_set[:, :-(self.settings.prediction_len)], train_set[:, -(self.settings.prediction_len):]
-		x_test, y_test = test_set[:, :-(self.settings.prediction_len)], test_set[:, -(self.settings.prediction_len):]
+		x_train, y_train = (train_set[:, :-(self.settings.prediction_len)],
+			train_set[:, -(self.settings.prediction_len):])
+		x_test, y_test = (test_set[:, :-(self.settings.prediction_len)],
+			test_set[:, -(self.settings.prediction_len):])
 
 		# Reshape lists into Tensorflow format.
 		x_train = numpy.reshape(x_train, (x_train.shape[0], x_train.shape[1], 1))
