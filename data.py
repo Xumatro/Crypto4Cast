@@ -23,8 +23,17 @@ class Data:
 				.strftime('%Y-%m-%d'))
 			del entry['time']
 
-			# Add an 'average' field to every entry of the history data
-			entry['average'] = (entry['high'] + entry['low']) / 2
+			to_predict = {
+				"open": entry['open'],
+				"close": entry['close'],
+				"high": entry['high'],
+				"low": entry['low'],
+				"oc_avg": (entry['open'] + entry['close']) / 2,
+				"hl_avg": (entry['high'] + entry['low']) / 2,
+			}
+			
+			# Add a 'course field to every entry of the history data
+			entry['course'] = to_predict.get(self.settings.to_predict)
 
 			# If trim is set, set startindex to the index of the first nonzero value
 			if self.settings.trim_leading_blank:
@@ -46,13 +55,13 @@ class Data:
 	def create_data_frame(self):
 
 		# Create a new pandas dataframe from the given data
-		data_frame = pandas.DataFrame(self.history, columns=['average', 'date'])
+		data_frame = pandas.DataFrame(self.history, columns=['course', 'date'])
 
 		# Convert the given date in string format to a pandas datetime
 		data_frame['date'] = pandas.to_datetime(data_frame['date'], format='%Y-%m-%d')
 
 		# Group our data by date
-		self.data_frame = data_frame.groupby('date').mean()['average']
+		self.data_frame = data_frame.groupby('date').mean()['course']
 
 	# Convert our data to a series of nested lists where every list contains data from 'series_lenght' entries
 	def create_price_matrix(self):
@@ -111,6 +120,7 @@ class DataSettings:
 		self.prediction_len = data_set['prediction_len']
 		self.series_lenght = data_set['series_lenght']
 		self.granularity = data_set['granularity']
+		self.to_predict = data_set['to_predict']
 		self.timeframe = data_set['timeframe']
 		self.save_file = data_set['save_file']
 		self.req_sym = data_set['req_sym']

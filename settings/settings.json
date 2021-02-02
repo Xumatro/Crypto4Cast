@@ -10,8 +10,9 @@
 		"timeframe": 1916,
 		"granularity": "day",
 		"trim_leading_blank": true,
-		"series_lenght": 90,
+		"series_lenght": 92,
 		"train_test_ratio": 0.85,
+		"to_predict": "close",
 		"prediction_len": 2,
 		"save_file": "data/history.json"
 	},
@@ -21,26 +22,19 @@
 		"loss_function": "mean_squared_error",
 		"optimizer": "rmsprop",
 		"batch_size": 1,
-		"epochs": 10,
+		"epochs": 15,
 		"layers": [
 			{
-				"type": "GRU",
-				"units": 90,
-				"activation": "tanh",
+				"type": "LSTM",
+				"units": 50,
+				"activation": "softmax",
 				"alpha": null,
 				"return_seq": true
 			},
 			{
 				"type": "GRU",
-				"units": 60,
-				"activation": "tanh",
-				"alpha": null,
-				"return_seq": true
-			},
-			{
-				"type": "GRU",
-				"units": 30,
-				"activation": "tanh",
+				"units": 35,
+				"activation": "sigmoid",
 				"alpha": null,
 				"return_seq": true
 			},
