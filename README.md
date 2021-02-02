@@ -70,7 +70,8 @@ In this field, all data specific settings can be changed
 - `trim_leading_blank` whether or not to cut leading whitespaces from returned data
 - `series_lenght` is the number of entries to group the data in
 - `train_test_ratio` is the ratio between the train and test dataset
-- `prediction_len` the lenght of the series to predict, 1 would predict today's average
+- `to_predict` is the price value to predict, example: `open`, `close`
+- `prediction_len` the lenght of the series to predict, 1 would predict today's `to_predict`
 - `save_file` is the filename of the file to save the data to
 <br/><br/>
 
