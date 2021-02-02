@@ -18,7 +18,7 @@
 - voilà!
 
 **You can use a non-FIAT currency such as `ETH` or `USDT` as well in `res_sym`, but it is recommended to stick with a trading pair supported by your exchange.*
-<br/>**The default prediction mode gives two values, today's and tomorrow's average respectively*
+<br/>**The default prediction mode gives two values, today's and tomorrow's closing price respectively*
 
 ### Dependencies
 - matplotlib
