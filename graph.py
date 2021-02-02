@@ -13,12 +13,8 @@ class Grapher:
 			data = data[-self.settings.data_lenght:]
 		
 		# Generate x axis (time) values, counting down from len(data)
-		entries = [*range(-len(data)+1, 0), 0]
-		values = []
-
-		# Add data to values since we can't use a pandas dataframe directly
-		for entry in data:
-			values.append(entry)
+		data_x = [*range(-len(data)+1, 1)]
+		data_y = [value for value in data]
 
 		# Set dark theme
 		if self.settings.dark_mode:
@@ -31,7 +27,7 @@ class Grapher:
 		pyplot.grid(self.settings.grid, color="#999999")
 
 		# Plot and save figure
-		pyplot.plot(entries, values, color="#02dd3c")
+		pyplot.plot(data_x, data_y, color="#02dd3c")
 		pyplot.savefig(self.settings.save_file, dpi=self.settings.dpi)
 
 
