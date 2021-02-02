@@ -19,8 +19,8 @@
 	"RNN": {
 		"trained_file": "model/predictor.h5",
 		"arch_file": "model/predictor.json",
-		"loss_function": "mean_squared_error",
-		"optimizer": "rmsprop",
+		"loss_function": "log_cosh",
+		"optimizer": "adam",
 		"batch_size": 1,
 		"epochs": 15,
 		"layers": [
